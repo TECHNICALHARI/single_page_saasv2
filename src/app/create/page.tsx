@@ -2,7 +2,12 @@
 
 import { useState } from 'react';
 import styles from '@/styles/create.module.css';
-import Modal from '@/lib/frontend/components/createform/Modal'; 
+import Modal from '@/lib/frontend/components/createform/Modal';
+import dynamic from 'next/dynamic';
+
+const RichTextEditor = dynamic(() => import('@/lib/frontend/components/createform/RichTextEditor'), {
+  ssr: false,
+});
 
 export default function CreatePage() {
   const [activeTab, setActiveTab] = useState<'basic' | 'links' | 'media' | 'seo' | 'preview'>('basic');
@@ -47,11 +52,10 @@ export default function CreatePage() {
         {['basic', 'links', 'media', 'seo', 'preview'].map((tab) => (
           <button
             key={tab}
-            className={`px-4 py-2 rounded-md text-sm font-medium ${
-              activeTab === tab
+            className={`px-4 py-2 rounded-md text-sm font-medium ${activeTab === tab
                 ? 'bg-[var(--color-brand)] text-white'
                 : 'bg-muted text-[var(--color-text-muted)]'
-            }`}
+              }`}
             onClick={() => setActiveTab(tab as any)}
           >
             {tab.toUpperCase()}
@@ -83,11 +87,11 @@ export default function CreatePage() {
             onChange={(e) => handleChange('title', e.target.value)}
             className={styles.input}
           />
-          <textarea
-            placeholder="Short Bio"
+       
+          <RichTextEditor
             value={form.bio}
-            onChange={(e) => handleChange('bio', e.target.value)}
-            className={styles.input}
+            onChange={(val) => handleChange('bio', val)}
+            placeholder="Short Bio"
           />
         </div>
       )}
@@ -175,7 +179,7 @@ export default function CreatePage() {
       {/* Link Modal */}
       {showLinkModal && (
         <Modal onClose={() => setShowLinkModal(false)}>
-          <div className="p-4">
+          <div className="p-4 grid gap-4">
             <h2 className="text-lg font-semibold mb-4">Add Link</h2>
             <input
               placeholder="Link Label"

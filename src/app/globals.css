@@ -426,15 +426,12 @@ footer a:hover {
 
 
 /* form create */
-.input {
-  @apply border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full;
-  @apply bg-white dark:bg-neutral-900 text-sm text-black dark:text-white;
+/* globals.css or module.css */
+.is-editor-empty::before {
+  content: attr(data-placeholder);
+  color: #a0a0a0;
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
 
-.btnPrimary {
-  @apply bg-[var(--color-brand)] text-white px-5 py-2 rounded-md text-sm font-semibold hover:bg-[var(--color-brand-dark)];
-}
-
-.btnSecondary {
-  @apply border border-gray-300 dark:border-gray-700 px-4 py-2 rounded-md text-sm;
-}
