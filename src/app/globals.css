@@ -1,26 +1,440 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* -------------------------------
+   🎨 Design Tokens
+-------------------------------- */
+:root,
+:root[data-theme='light'] {
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-brand: #4f46e5;
+  --color-brand-dark: #4338ca;
+  --color-muted: #f4f4f5;
+  --color-text-muted: #6b7280;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root[data-theme='dark'] {
+  --color-bg: #0a0a0a;
+  --color-text: #ededed;
+  --color-brand: #8b5cf6;
+  --color-brand-dark: #7c3aed;
+  --color-muted: #1a1a1a;
+  --color-text-muted: #a1a1aa;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+/* -------------------------------
+   🧱 Base + Layout
+-------------------------------- */
+
+.container {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* -------------------------------
+   🔝 Header
+-------------------------------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+.header nav a {
+  color: inherit;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.header nav a:hover {
+  color: var(--color-brand);
+}
+
+/* -------------------------------
+   🦸 Hero Section
+-------------------------------- */
+.hero {
+  background-color: var(--color-brand);
+  color: white;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  text-align: center;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  max-width: 40rem;
+  margin: 0 auto 1.5rem auto;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: #ffffffcc;
+  max-width: 36rem;
+  margin: 0 auto 2rem auto;
+}
+
+.hero .actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+/* -------------------------------
+   🎯 Buttons
+-------------------------------- */
+.btn-primary {
+  background-color: var(--color-brand);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-brand-dark);
+}
+
+.btn-outline-white {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-white:hover {
+  background-color: white;
+  color: var(--color-brand);
+}
+
+.btn-white {
+  background-color: white;
+  color: var(--color-brand);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.btn-white:hover {
+  transform: scale(1.05);
+}
+
+/* -------------------------------
+   💎 Plan Cards
+-------------------------------- */
+/* Plan badge (improved) */
+.plan-badge {
+  display: inline-block;
+  background: var(--color-brand);
+  color: white;
+  padding: 0.25rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+/* Plan card - upgraded */
+.plan-card {
+  background: linear-gradient(to bottom, #ffffff, #f9f9ff);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.plan-price {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+}
+
+.plan-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.plan-list li::before {
+  content: '✔';
+  color: var(--color-brand);
+  margin-right: 0.5rem;
+  display: inline-block;
+  width: 1em;
+}
+
+
+/* -------------------------------
+   🧩 Feature + User Cards
+-------------------------------- */
+.feature-card,
+.user-card {
+  background-color: var(--color-muted);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.feature-card:hover,
+.user-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* -------------------------------
+   📚 FAQ Section (Toggle)
+-------------------------------- */
+.faq-wrapper {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.faq-question {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--color-brand);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.faq-question:hover {
+  color: var(--color-brand-dark);
+}
+
+.faq-answer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 0.75rem;
+}
+
+
+/* -------------------------------
+   🎯 Use Cases / Perfect For
+-------------------------------- */
+.feature-card {
+  background-color: var(--color-muted);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.feature-card h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.feature-card p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* -------------------------------
+   ✅ Call To Action Section
+-------------------------------- */
+section.cta {
+  background-color: var(--color-brand);
+  color: white;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  text-align: center;
+}
+
+.cta .section-title {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.cta .section-subtitle {
+  color: #ffffffcc;
+  font-size: 1.125rem;
+  max-width: 36rem;
+  margin: 0 auto 2rem auto;
+}
+
+.cta .btn-primary {
+  background-color: white;
+  color: var(--color-brand);
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  transition: transform 0.2s ease;
+}
+
+.cta .btn-primary:hover {
+  transform: scale(1.05);
+}
+
+.cta .btn-white {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.cta .btn-white:hover {
+  background-color: white;
+  color: var(--color-brand);
+}
+
+.cta .text-muted-text {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* -------------------------------
+   🤝 Trust Section
+-------------------------------- */
+.trust-stat {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.trust-stat:hover {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
+}
+
+.trust-stat h4 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-bottom: 0.5rem;
+}
+
+.trust-stat p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+
+/* -------------------------------
+   🔚 Footer
+-------------------------------- */
+footer {
+  background-color: var(--color-text);
+  color: var(--color-text-muted);
+  padding: 3rem 1.5rem;
+}
+
+footer a {
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: white;
+}
+
+
+/* form create */
+.input {
+  @apply border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full;
+  @apply bg-white dark:bg-neutral-900 text-sm text-black dark:text-white;
+}
+
+.btnPrimary {
+  @apply bg-[var(--color-brand)] text-white px-5 py-2 rounded-md text-sm font-semibold hover:bg-[var(--color-brand-dark)];
+}
+
+.btnSecondary {
+  @apply border border-gray-300 dark:border-gray-700 px-4 py-2 rounded-md text-sm;
 }
