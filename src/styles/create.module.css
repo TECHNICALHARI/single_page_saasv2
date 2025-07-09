@@ -12,3 +12,165 @@
   outline: 2px solid var(--color-brand);
   outline-offset: 1px;
 }
+
+
+/* login and signup page */
+/* -------------------------------
+   Layout
+-------------------------------- */
+.authPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, #f8fafc, #eef2f7);
+  padding: 2rem;
+}
+
+.authContainer {
+  width: 100%;
+  max-width: 28rem;
+  background-color: #ffffff;
+  padding: 2.75rem 2.25rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  margin: auto;
+  position: relative;
+}
+
+/* -------------------------------
+   Typography
+-------------------------------- */
+.title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--color-brand);
+  text-align: center;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.bottomText {
+  font-size: 0.875rem;
+  text-align: center;
+  margin-top: 1.75rem;
+  color: var(--color-text-muted);
+}
+
+/* -------------------------------
+   Input Fields
+-------------------------------- */
+.inputGroup {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  background-color: #f9fafb;
+  color: #111827;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.input:focus {
+  outline: none;
+  background-color: white;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+/* -------------------------------
+   Button
+-------------------------------- */
+.btnFull {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  background-color: var(--color-brand);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+}
+
+.btnFull:hover {
+  background-color: var(--color-brand-dark);
+  transform: translateY(-1px);
+}
+
+.btnFull:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* -------------------------------
+   Subdomain Preview Box
+-------------------------------- */
+.previewBox {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.previewUrl {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  word-break: break-word;
+}
+
+.previewNote {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* -------------------------------
+   Utility (for conditional classes)
+-------------------------------- */
+.text-green-600 {
+  color: #16a34a;
+}
+
+.text-red-500 {
+  color: #ef4444;
+}
+
+.text-brand {
+  color: var(--color-brand);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
