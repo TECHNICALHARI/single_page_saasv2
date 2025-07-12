@@ -1,0 +1,407 @@
+/* -------------------------------
+   🌐 Layout
+-------------------------------- */
+.dashboardWrapper {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboardMain {
+  flex: 1;
+  padding: 2rem 1.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
+}
+
+.dashboardContent {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+/* -------------------------------
+   📱 Mobile Preview
+-------------------------------- */
+.mobilePreview {
+  width: 360px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 100px;
+}
+
+.phoneFrame {
+  border: 1px solid #e5e7eb;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* -------------------------------
+   🧭 Tabs
+-------------------------------- */
+.tabsWrapper {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabNav {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-muted);
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.tabItem {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: transparent;
+}
+
+.tabItem:hover {
+  color: var(--color-brand);
+}
+
+.activeTab {
+  color: var(--color-brand);
+  border-color: var(--color-brand);
+  background-color: #f5f5ff;
+}
+
+.tabContent {
+  flex: 1;
+  background-color: white;
+  border: 1px solid var(--color-muted);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.03);
+  overflow-y: auto;
+}
+
+/* -------------------------------
+   📥 Inputs
+-------------------------------- */
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-muted);
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  background-color: #f9fafb;
+  color: var(--color-text);
+  font-weight: 500;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.input:focus {
+  outline: none;
+  background-color: white;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+/* -------------------------------
+   ✅ Buttons
+-------------------------------- */
+.btnFull {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  background-color: var(--color-brand);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+}
+
+.btnFull:hover {
+  background-color: var(--color-brand-dark);
+  transform: translateY(-1px);
+}
+
+.btnFull:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  padding: 0.65rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--color-brand);
+  border-radius: 9999px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btnPrimary:hover {
+  background-color: var(--color-brand-dark);
+  transform: translateY(-1px);
+}
+
+.btnPrimary:disabled {
+  background-color: var(--color-muted);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* -------------------------------
+   📎 File Upload
+-------------------------------- */
+.fileUpload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.filePreview {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.hiddenFile {
+  border: none;
+  background: transparent;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+/* -------------------------------
+   📬 Post Form & Card
+-------------------------------- */
+.postCard {
+  background-color: #ffffff;
+  border: 1px solid var(--color-muted);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* -------------------------------
+   📜 Post Item
+-------------------------------- */
+.postItem {
+  display: flex;
+  gap: 1rem;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  align-items: flex-start;
+}
+
+.postThumbnail {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+/* -------------------------------
+   ✅ Modal Overlay
+-------------------------------- */
+.modalOverlay {
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.45);
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 1.25rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 430px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+/* -------------------------------
+   🔗 Link Card
+-------------------------------- */
+.linkItem {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.linkItem:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.linkThumbnail {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+.text-red-500 {
+  color: #ef4444;
+}
+.bg-muted {
+  background-color: var(--color-muted);
+}
+.text-brand {
+  color: var(--color-brand);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+
+/* custom modal start */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.customModal {
+  background-color: white;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
+  animation: popIn 0.2s ease-out;
+
+  /* ✅ Hide scrollbar cross-browser */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge */
+}
+
+.customModal::-webkit-scrollbar {
+  display: none;                /* Chrome/Safari */
+}
+
+
+
+.modalCloseBtn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modalCloseBtn:hover {
+  color: var(--color-brand);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .customModal {
+    padding: 1.5rem 1rem;
+    max-width: 95vw;
+  }
+}
+
+/* custom modal end  */
+
+
+/* subscriber */
+.statCard {
+  background: #fff;
+  border: 1px solid var(--color-muted);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.02);
+  text-align: center;
+}
+
+.statCard h4 {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.statCard p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+/* subscriber end */
+
+/* settings  */
+
