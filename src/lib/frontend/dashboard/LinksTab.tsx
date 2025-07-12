@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -17,15 +16,14 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { useState } from 'react';
 import SortableLink from './SortableLink';
 import LinkFormModal from './LinkFormModal';
+import CustomModal from './CustomModal';
 import styles from '@/styles/dashboard.module.css';
 import { Pencil, Trash2 } from 'lucide-react';
-import CustomModal from './CustomModal';
 
-export default function LinksTab() {
-  const [links, setLinks] = useState<any[]>([]);
-  const [headers, setHeaders] = useState<any[]>([]);
+export default function LinksTab({ form, setForm }: { form: any; setForm: (f: any) => void }) {
   const [showModal, setShowModal] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [showHeaderModal, setShowHeaderModal] = useState(false);
@@ -34,79 +32,78 @@ export default function LinksTab() {
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
+  // ---- Links ----
+
   const handleAddLink = (data: any) => {
+    const updatedLinks = [...form.links];
     if (editIndex !== null) {
-      setLinks((prev) =>
-        prev.map((item, idx) => (idx === editIndex ? data : item))
-      );
+      updatedLinks[editIndex] = data;
       setEditIndex(null);
     } else {
-      setLinks((prev) => [...prev, { ...data, id: `link-${Date.now()}` }]);
+      updatedLinks.push({ ...data, id: `link-${Date.now()}` });
     }
+    setForm({ ...form, links: updatedLinks });
     setShowModal(false);
   };
 
-  const handleDelete = (index: number) => {
-    setLinks((prev) => prev.filter((_, i) => i !== index));
+  const handleDeleteLink = (index: number) => {
+    const updatedLinks = form.links.filter((_, i) => i !== index);
+    setForm({ ...form, links: updatedLinks });
   };
 
-  const handleEdit = (index: number) => {
+  const handleEditLink = (index: number) => {
     setEditIndex(index);
     setShowModal(true);
   };
 
-  const handleSaveHeader = () => {
-    if (headerTitle.trim()) {
-      if (editHeaderIndex !== null) {
-        setHeaders((prev) =>
-          prev.map((h, idx) => (idx === editHeaderIndex ? { ...h, title: headerTitle } : h))
-        );
-        setEditHeaderIndex(null);
-      } else {
-        setHeaders((prev) => [
-          ...prev,
-          { id: `header-${Date.now()}`, title: headerTitle },
-        ]);
-      }
-      setHeaderTitle('');
-      setShowHeaderModal(false);
+  const handleDragEndLinks = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!active?.id || !over?.id || active.id === over.id) return;
+    const oldIndex = form.links.findIndex((i) => i.id === active.id);
+    const newIndex = form.links.findIndex((i) => i.id === over.id);
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const reordered = arrayMove(form.links, oldIndex, newIndex);
+      setForm({ ...form, links: reordered });
     }
+  };
+
+  // ---- Headers ----
+
+  const handleSaveHeader = () => {
+    const updated = [...form.headers];
+    if (editHeaderIndex !== null) {
+      updated[editHeaderIndex].title = headerTitle;
+      setEditHeaderIndex(null);
+    } else {
+      updated.push({ id: `header-${Date.now()}`, title: headerTitle });
+    }
+    setForm({ ...form, headers: updated });
+    setHeaderTitle('');
+    setShowHeaderModal(false);
   };
 
   const handleEditHeader = (index: number) => {
     setEditHeaderIndex(index);
-    setHeaderTitle(headers[index].title);
+    setHeaderTitle(form.headers[index].title);
     setShowHeaderModal(true);
   };
 
   const handleDeleteHeader = (index: number) => {
-    setHeaders((prev) => prev.filter((_, i) => i !== index));
+    const updated = form.headers.filter((_, i) => i !== index);
+    setForm({ ...form, headers: updated });
   };
 
   const handleDragEndHeaders = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (active?.id && over?.id && active.id !== over.id) {
-      const oldIndex = headers.findIndex((item) => item.id === active.id);
-      const newIndex = headers.findIndex((item) => item.id === over.id);
-      if (oldIndex !== -1 && newIndex !== -1) {
-        setHeaders((prev) => arrayMove(prev, oldIndex, newIndex));
-      }
-    }
-  };
-
-  const handleDragEndLinks = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (active?.id && over?.id && active.id !== over.id) {
-      const oldIndex = links.findIndex((item) => item.id === active.id);
-      const newIndex = links.findIndex((item) => item.id === over.id);
-      if (oldIndex !== -1 && newIndex !== -1) {
-        setLinks((prev) => arrayMove(prev, oldIndex, newIndex));
-      }
+    if (!active?.id || !over?.id || active.id === over.id) return;
+    const oldIndex = form.headers.findIndex((i) => i.id === active.id);
+    const newIndex = form.headers.findIndex((i) => i.id === over.id);
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const reordered = arrayMove(form.headers, oldIndex, newIndex);
+      setForm({ ...form, headers: reordered });
     }
   };
 
@@ -118,7 +115,7 @@ export default function LinksTab() {
           Add custom links to your profile — reorder, highlight or include thumbnails.
         </p>
 
-        {/* HEADER SECTION */}
+        {/* Header Section */}
         <div className="bg-white border border-muted rounded-xl shadow-sm p-6 mb-8">
           <div className="flex justify-between items-center mb-4">
             <h4 className="text-sm font-bold text-brand">Headers</h4>
@@ -126,11 +123,10 @@ export default function LinksTab() {
               + Add Header
             </button>
           </div>
-
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEndHeaders}>
-            <SortableContext items={headers.map((item) => item.id)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={form.headers.map((h: any) => h.id)} strategy={verticalListSortingStrategy}>
               <div className="grid gap-3">
-                {headers.map((header, index) => (
+                {form.headers.map((header: any, index: number) => (
                   <SortableLink
                     key={header.id}
                     id={header.id}
@@ -145,7 +141,7 @@ export default function LinksTab() {
           </DndContext>
         </div>
 
-        {/* LINK SECTION */}
+        {/* Link Section */}
         <div className="bg-white border border-muted rounded-xl shadow-sm p-6">
           <div className="flex justify-between items-center mb-4">
             <h4 className="text-sm font-bold text-brand">Links</h4>
@@ -153,17 +149,16 @@ export default function LinksTab() {
               + Add Link
             </button>
           </div>
-
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEndLinks}>
-            <SortableContext items={links.map((item) => item.id)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={form.links.map((l: any) => l.id)} strategy={verticalListSortingStrategy}>
               <div className="grid gap-4">
-                {links.map((link, index) => (
+                {form.links.map((link: any, index: number) => (
                   <SortableLink
                     key={link.id}
                     id={link.id}
                     link={link}
-                    onDelete={() => handleDelete(index)}
-                    onEdit={() => handleEdit(index)}
+                    onDelete={() => handleDeleteLink(index)}
+                    onEdit={() => handleEditLink(index)}
                   />
                 ))}
               </div>
@@ -172,7 +167,7 @@ export default function LinksTab() {
         </div>
       </div>
 
-      {/* LINK MODAL */}
+      {/* Modals */}
       {showModal && (
         <LinkFormModal
           onSave={handleAddLink}
@@ -180,11 +175,10 @@ export default function LinksTab() {
             setShowModal(false);
             setEditIndex(null);
           }}
-          initialData={editIndex !== null ? links[editIndex] : undefined}
+          initialData={editIndex !== null ? form.links[editIndex] : undefined}
         />
       )}
 
-      {/* HEADER MODAL */}
       {showHeaderModal && (
         <CustomModal onClose={() => setShowHeaderModal(false)} width="400px">
           <h2 className="text-lg font-bold text-brand mb-4">

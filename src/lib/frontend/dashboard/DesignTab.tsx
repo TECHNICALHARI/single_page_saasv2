@@ -1,17 +1,17 @@
 'use client';
 
-import { useState } from 'react';
 import styles from '@/styles/dashboard.module.css';
 import Image from 'next/image';
-import PlanUpgradeModal from './PlanUpgradeModal';
 import CustomModal from './CustomModal';
 import PlanCard from '../components/home/PlanCard';
+import { useState } from 'react';
 
 const themes = [
   { key: 'link', name: 'Link in bio', preview: '/themes/link.png' },
   { key: 'blog', name: 'Blog', preview: '/themes/blog.png' },
   { key: 'shop', name: 'Shop', preview: '/themes/shop.png' },
 ];
+
 const plans = [
   {
     name: 'Free',
@@ -59,21 +59,17 @@ const plans = [
   },
 ];
 
-
-export default function DesignTab() {
-  const [profile, setProfile] = useState({
-    name: 'Your Name',
-    bio: 'This is your bio',
-    avatar: '',
-    theme: 'link',
-  });
-
-  const [brandingOff, setBrandingOff] = useState(false);
+export default function DesignTab({
+  form,
+  setForm,
+}: {
+  form: any;
+  setForm: (f: any) => void;
+}) {
   const [showPlanModal, setShowPlanModal] = useState(false);
 
-  const handleChange = (field: string, value: string) => {
-    setProfile((prev) => ({ ...prev, [field]: value }));
-    // 🔄 Persist or update preview
+  const handleChange = (field: string, value: any) => {
+    setForm((prev: any) => ({ ...prev, [field]: value }));
   };
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,15 +82,13 @@ export default function DesignTab() {
   };
 
   const handleBrandingChange = (value: boolean) => {
-    if (value) {
-      setShowPlanModal(true);
-    }
-    setBrandingOff(value);
+    if (value) setShowPlanModal(true);
+    handleChange('brandingOff', value);
   };
 
   return (
     <div className="grid gap-8">
-      {/* Profile Section */}
+      {/* 👤 Profile Section */}
       <h3 className="text-xl font-bold text-brand">Profile</h3>
       <div className={styles.postCard}>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -104,24 +98,24 @@ export default function DesignTab() {
             <input
               className={styles.input}
               placeholder="Your Name"
-              value={profile.name}
-              onChange={(e) => handleChange('name', e.target.value)}
+              value={form.fullName}
+              onChange={(e) => handleChange('fullName', e.target.value)}
             />
 
             <label className="text-sm font-medium text-muted block mb-1 mt-4">Bio</label>
             <input
               className={styles.input}
               placeholder="Bio"
-              value={profile.bio}
+              value={form.bio}
               onChange={(e) => handleChange('bio', e.target.value)}
             />
           </div>
 
           {/* Right: Avatar */}
           <div className="flex flex-col items-center gap-2">
-            {profile.avatar ? (
+            {form.avatar ? (
               <img
-                src={profile.avatar}
+                src={form.avatar}
                 className="w-20 h-20 rounded-full border object-cover"
                 alt="avatar"
               />
@@ -133,7 +127,7 @@ export default function DesignTab() {
         </div>
       </div>
 
-      {/* Theme Section */}
+      {/* 🎨 Theme Section */}
       <h3 className="text-xl font-bold text-brand">Themes</h3>
       <div className="flex gap-4 flex-wrap">
         {themes.map((theme) => (
@@ -141,7 +135,7 @@ export default function DesignTab() {
             key={theme.key}
             onClick={() => handleChange('theme', theme.key)}
             className={`cursor-pointer rounded-xl border-2 p-2 transition-all ${
-              profile.theme === theme.key
+              form.theme === theme.key
                 ? 'border-[var(--color-brand)]'
                 : 'border-transparent'
             }`}
@@ -155,7 +149,7 @@ export default function DesignTab() {
             />
             <p
               className={`text-sm mt-2 text-center font-medium ${
-                profile.theme === theme.key
+                form.theme === theme.key
                   ? 'text-[var(--color-brand)]'
                   : 'text-muted'
               }`}
@@ -166,7 +160,7 @@ export default function DesignTab() {
         ))}
       </div>
 
-      {/* Disable Branding */}
+      {/* 🚫 Disable Branding */}
       <div className={styles.postCard}>
         <h4 className="text-md font-semibold text-brand mb-2">Bio Link Branding</h4>
         <div className="flex items-center gap-6 text-sm">
@@ -174,7 +168,7 @@ export default function DesignTab() {
             <input
               type="radio"
               name="branding"
-              checked={!brandingOff}
+              checked={!form.brandingOff}
               onChange={() => handleBrandingChange(false)}
             />
             <span>Show branding (Free)</span>
@@ -184,7 +178,7 @@ export default function DesignTab() {
             <input
               type="radio"
               name="branding"
-              checked={brandingOff}
+              checked={form.brandingOff}
               onChange={() => handleBrandingChange(true)}
             />
             <span>Remove branding (Pro feature)</span>
@@ -192,21 +186,22 @@ export default function DesignTab() {
         </div>
       </div>
 
-      {/* Modal */}
-  {showPlanModal && (
-  <CustomModal onClose={() => setShowPlanModal(false)} width="1024px">
-    <h2 className="text-xl font-bold text-center text-brand mb-2">Upgrade to Remove Branding</h2>
-    <p className="text-center text-muted mb-6 text-sm">
-      Choose a plan to remove Bio Link branding from your page.
-    </p>
-
-    <div className="grid md:grid-cols-3 gap-6">
-      {plans.map((plan, idx) => (
-        <PlanCard key={idx} plan={plan} />
-      ))}
-    </div>
-  </CustomModal>
-)}
+      {/* 💸 Upgrade Modal */}
+      {showPlanModal && (
+        <CustomModal onClose={() => setShowPlanModal(false)} width="1024px">
+          <h2 className="text-xl font-bold text-center text-brand mb-2">
+            Upgrade to Remove Branding
+          </h2>
+          <p className="text-center text-muted mb-6 text-sm">
+            Choose a plan to remove Bio Link branding from your page.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {plans.map((plan, idx) => (
+              <PlanCard key={idx} plan={plan} />
+            ))}
+          </div>
+        </CustomModal>
+      )}
     </div>
   );
 }

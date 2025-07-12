@@ -9,8 +9,13 @@ const RichTextEditor = dynamic(
   { ssr: false }
 );
 
-export default function PostsTab() {
-  const [posts, setPosts] = useState<any[]>([]);
+export default function PostsTab({
+  form,
+  setForm,
+}: {
+  form: any;
+  setForm: (data: any) => void;
+}) {
   const [postTitle, setPostTitle] = useState('');
   const [postBody, setPostBody] = useState('');
   const [postImage, setPostImage] = useState<File | null>(null);
@@ -25,14 +30,15 @@ export default function PostsTab() {
       image: postImage,
     };
 
+    let updatedPosts = [...(form.posts || [])];
     if (editingIndex !== null) {
-      const updatedPosts = [...posts];
       updatedPosts[editingIndex] = newPost;
-      setPosts(updatedPosts);
       setEditingIndex(null);
     } else {
-      setPosts([...posts, newPost]);
+      updatedPosts.push(newPost);
     }
+
+    setForm({ ...form, posts: updatedPosts });
 
     // Reset form
     setPostTitle('');
@@ -41,7 +47,7 @@ export default function PostsTab() {
   };
 
   const handleEdit = (index: number) => {
-    const post = posts[index];
+    const post = form.posts[index];
     setPostTitle(post.title);
     setPostBody(post.body);
     setPostImage(post.image || null);
@@ -50,7 +56,8 @@ export default function PostsTab() {
 
   const handleDelete = (index: number) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
-      setPosts((prev) => prev.filter((_, i) => i !== index));
+      const updatedPosts = form.posts.filter((_: any, i: number) => i !== index);
+      setForm({ ...form, posts: updatedPosts });
       if (editingIndex === index) {
         setPostTitle('');
         setPostBody('');
@@ -71,7 +78,7 @@ export default function PostsTab() {
         </p>
       </div>
 
-      {/* 📝 Post Form */}
+      {/* Post Form */}
       <div className={styles.postCard}>
         <input
           type="text"
@@ -124,9 +131,9 @@ export default function PostsTab() {
         </div>
       </div>
 
-      {/* 📜 Post List */}
+      {/* Post List */}
       <div className="grid gap-5 mt-8">
-        {posts.map((post, idx) => (
+        {(form.posts || []).map((post: any, idx: number) => (
           <div key={idx} className={styles.postItem}>
             {post.image && (
               <img

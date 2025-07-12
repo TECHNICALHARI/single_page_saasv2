@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState } from 'react';
 import styles from '@/styles/dashboard.module.css';
 
-export default function SettingsTab() {
-  const [preferredLink, setPreferredLink] = useState('primary');
-  const [nsfwWarning, setNsfwWarning] = useState(false);
-  const [seoTitle, setSeoTitle] = useState('');
-  const [seoDescription, setSeoDescription] = useState('');
-  const [gaId, setGaId] = useState('');
-  const [username, setUsername] = useState('sonaltomar');
-  const [customDomain, setCustomDomain] = useState('');
-  const [emojiLink, setEmojiLink] = useState('');
+export default function SettingsTab({
+  form,
+  setForm,
+}: {
+  form: any;
+  setForm: (f: any) => void;
+}) {
+  const handleChange = (field: string, value: any) => {
+    setForm((prev: any) => ({ ...prev, [field]: value }));
+  };
 
   return (
     <div className="grid gap-6">
@@ -29,22 +29,22 @@ export default function SettingsTab() {
               type="radio"
               name="preferredLink"
               value="primary"
-              checked={preferredLink === 'primary'}
-              onChange={() => setPreferredLink('primary')}
+              checked={form.preferredLink === 'primary'}
+              onChange={() => handleChange('preferredLink', 'primary')}
               className="accent-brand"
             />
-            <span>bio.link/sonaltomar</span>
+            <span>bio.link/{form.username || 'yourname'}</span>
           </label>
           <label className="flex items-center gap-2 p-2 rounded-md border cursor-pointer hover:border-brand transition-all">
             <input
               type="radio"
               name="preferredLink"
               value="subdomain"
-              checked={preferredLink === 'subdomain'}
-              onChange={() => setPreferredLink('subdomain')}
+              checked={form.preferredLink === 'subdomain'}
+              onChange={() => handleChange('preferredLink', 'subdomain')}
               className="accent-brand"
             />
-            <span>sonaltomar.bio.link</span>
+            <span>{form.username || 'yourname'}.bio.link</span>
           </label>
         </div>
       </div>
@@ -55,8 +55,8 @@ export default function SettingsTab() {
         <label className="flex items-center gap-3 text-sm cursor-pointer">
           <input
             type="checkbox"
-            checked={nsfwWarning}
-            onChange={(e) => setNsfwWarning(e.target.checked)}
+            checked={form.nsfwWarning}
+            onChange={(e) => handleChange('nsfwWarning', e.target.checked)}
             className="accent-brand w-4 h-4"
           />
           <span className="text-muted">Show a warning before displaying your page.</span>
@@ -72,15 +72,15 @@ export default function SettingsTab() {
         <input
           className={styles.input}
           placeholder="SEO Title"
-          value={seoTitle}
-          onChange={(e) => setSeoTitle(e.target.value)}
+          value={form.metaTitle}
+          onChange={(e) => handleChange('metaTitle', e.target.value)}
         />
         <textarea
           className={`${styles.input} mt-3`}
           placeholder="SEO description will show here"
           rows={3}
-          value={seoDescription}
-          onChange={(e) => setSeoDescription(e.target.value)}
+          value={form.metaDescription}
+          onChange={(e) => handleChange('metaDescription', e.target.value)}
         />
       </div>
 
@@ -90,20 +90,20 @@ export default function SettingsTab() {
         <input
           className={styles.input}
           placeholder="G-728288282222"
-          value={gaId}
-          onChange={(e) => setGaId(e.target.value)}
+          value={form.gaId}
+          onChange={(e) => handleChange('gaId', e.target.value)}
         />
       </div>
 
-      {/* My Username */}
+      {/* Username */}
       <div className={styles.postCard}>
         <h4 className="text-base font-semibold mb-2">My Username</h4>
         <div className="flex items-center gap-2">
           <span className="text-muted">bio.link/</span>
           <input
             className={`${styles.input} w-full`}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={form.username}
+            onChange={(e) => handleChange('username', e.target.value)}
           />
         </div>
       </div>
@@ -117,8 +117,8 @@ export default function SettingsTab() {
         <input
           className={styles.input}
           placeholder="yourdomain.com"
-          value={customDomain}
-          onChange={(e) => setCustomDomain(e.target.value)}
+          value={form.customDomain}
+          onChange={(e) => handleChange('customDomain', e.target.value)}
         />
         <button className={`${styles.btnPrimary} mt-3`}>Set up domain</button>
       </div>
@@ -132,15 +132,19 @@ export default function SettingsTab() {
         <input
           className={styles.input}
           placeholder="😄😭🥵"
-          value={emojiLink}
-          onChange={(e) => setEmojiLink(e.target.value)}
+          value={form.emojiLink}
+          onChange={(e) => handleChange('emojiLink', e.target.value)}
         />
         <button className={`${styles.btnPrimary} mt-3`}>Create</button>
       </div>
 
       {/* Help Center */}
       <div className="text-sm text-center text-muted mt-6">
-        Go to <a href="/help" className="text-brand underline">Help Center</a> to learn more or contact support.
+        Go to{' '}
+        <a href="/help" className="text-brand underline">
+          Help Center
+        </a>{' '}
+        to learn more or contact support.
       </div>
     </div>
   );

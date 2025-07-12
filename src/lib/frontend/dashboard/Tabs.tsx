@@ -12,7 +12,7 @@ import SettingsTab from './SettingsTab';
 
 const tabs = ['Links', 'Posts', 'Design', 'Subscribers', 'Stats', 'Settings'];
 
-export default function Tabs() {
+export default function Tabs({ form, setForm }: { form: any; setForm: (f: any) => void }) {
   const [activeTab, setActiveTab] = useState('Links');
 
   return (
@@ -30,13 +30,14 @@ export default function Tabs() {
       </nav>
 
       <div className={styles.tabContent}>
-        {activeTab === 'Links' && <LinksTab />}
-        {activeTab === 'Posts' && <PostsTab />}
-        {activeTab === 'Design' && <DesignTab />}
-        {activeTab === 'Subscribers' && <SubscribersTab />}
-        {activeTab === 'Stats' && <StatsTab />}
-        {activeTab === 'Settings' && <SettingsTab />}
+        {activeTab === 'Links' && <LinksTab form={form} setForm={setForm} />}
+        {activeTab === 'Posts' && <PostsTab form={form} setForm={setForm} />}
+        {activeTab === 'Design' && <DesignTab form={form} setForm={setForm} />}
+        {activeTab === 'Subscribers' && <SubscribersTab form={form} setForm={setForm} />}
+        {activeTab === 'Stats' && <StatsTab form={form} setForm={setForm} />}
+        {activeTab === 'Settings' && <SettingsTab form={form} setForm={setForm} />}
       </div>
     </div>
   );
 }
+
