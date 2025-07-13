@@ -5,6 +5,7 @@ import Header from '@/lib/frontend/dashboard/header';
 import MobilePreview from '@/lib/frontend/dashboard/MobilePreview';
 import Tabs from '@/lib/frontend/dashboard/Tabs';
 import styles from '@/styles/dashboard.module.css';
+import { useAutoSave } from '@/lib/frontend/hooks/useAutoSave';
 
 export default function Dashboard() {
   const [form, setForm] = useState({
@@ -29,7 +30,7 @@ export default function Dashboard() {
     emojiLink: '',
     gaId: '',
   });
-
+useAutoSave(form); 
   return (
     <div className={styles.dashboardWrapper}>
       <Header />

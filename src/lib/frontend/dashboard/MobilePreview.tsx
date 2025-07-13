@@ -1,134 +1,165 @@
 'use client';
 
-import styles from '@/styles/dashboard.module.css';
-import { ExternalLink } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import styles from '@/styles/preview.module.css';
+import { useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function MobilePreview({ form }: { form: any }) {
   const {
     fullName,
-    bio,
+    username,
+    title,
     avatar,
+    bio,
     links = [],
-    headers = [],
-    posts = [],
-    username = 'yourname',
+    about,
+    gallery = [],
+    testimonials = [],
+    faq = [],
+    embeds = [],
+    locationEmbed,
     brandingOff,
-    nsfwWarning,
-    preferredLink,
-    theme = 'link',
   } = form;
 
-  const [showWarning, setShowWarning] = useState(nsfwWarning);
-
-  useEffect(() => {
-    setShowWarning(nsfwWarning);
-  }, [nsfwWarning]);
-
-  const resolvedLink =
-    preferredLink === 'subdomain' ? `${username}.bio.link` : `bio.link/${username}`;
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openEmbed, setOpenEmbed] = useState<number | null>(null);
 
   return (
-    <div className="w-[360px] rounded-3xl border-2 border-muted bg-white shadow-xl overflow-hidden">
+    <div className="bg-white border rounded-2xl shadow-md p-4 max-w-[360px] mx-auto overflow-y-auto max-h-[85vh]">
       {/* Header */}
-      <div className="bg-brand text-white text-center py-4 px-6">
-        <div className="text-sm mb-1 font-mono opacity-80">{resolvedLink}</div>
-        <h2 className="text-xl font-bold">{fullName || 'Your Name'}</h2>
-      </div>
+      <section className="text-center">
+        <img
+          src={avatar || '/placeholder-avatar.png'}
+          alt="avatar"
+          className={`${styles.avatar} mx-auto mb-4`}
+        />
+        <h1 className="text-xl font-bold">{fullName || 'Your Name'}</h1>
+        <p className="text-muted-text text-sm mt-1">
+          @{username || 'username'} · {title || 'Your Title'}
+        </p>
+        <p className="text-muted-text text-sm mt-3">{bio || 'Your short bio here.'}</p>
 
-      {/* NSFW warning (if enabled) */}
-      {showWarning && (
-        <div className="p-4 bg-red-100 text-red-700 text-sm text-center">
-          ⚠️ This page contains sensitive content.{' '}
-          <button
-            onClick={() => setShowWarning(false)}
-            className="text-red-500 underline ml-1"
-          >
-            View Anyway
-          </button>
-        </div>
+        {links.length > 0 && (
+          <div className={`flex justify-center flex-wrap gap-2 mt-5 ${styles.linkWrap}`}>
+            {links.map((link: any, i: number) => (
+              <a
+                key={i}
+                href={link.href}
+                className={styles.btnPrimary}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* About */}
+      {about && (
+        <section className="mt-8">
+          <h2 className={styles.sectionTitle}>About</h2>
+          <p className="text-center text-muted-text text-sm">{about}</p>
+        </section>
       )}
 
-      {!showWarning && (
-        <>
-          {/* Avatar */}
-          {avatar && (
-            <div className="flex justify-center mt-4">
+      {/* Gallery */}
+      {gallery.length > 0 && (
+        <section className="mt-8">
+          <h2 className={styles.sectionTitle}>Gallery</h2>
+          <div className={styles.gallerySlider}>
+            {gallery.map((src: string, i: number) => (
               <img
-                src={avatar}
-                alt="avatar"
-                className="w-24 h-24 rounded-full border object-cover shadow-sm"
+                key={i}
+                src={src}
+                alt={`gallery-${i}`}
+                className={styles.gallerySlide}
               />
-            </div>
-          )}
-
-          {/* Bio */}
-          <div className="text-center px-6 mt-3">
-            <p className="text-sm text-muted">{bio || 'This is your short bio.'}</p>
+            ))}
           </div>
+        </section>
+      )}
 
-          {/* Links Section */}
-          {(headers.length > 0 || links.length > 0) && (
-            <div className="mt-6 px-4">
-              {headers.map((header: any, i: number) => (
-                <div key={header.id} className="text-sm font-bold text-brand mt-4 mb-2">
-                  {header.title}
+      {/* Testimonials */}
+      {testimonials.length > 0 && (
+        <section className="mt-8">
+          <h2 className={styles.sectionTitle}>Testimonials</h2>
+          <div className="grid gap-3 mt-4">
+            {testimonials.map(([quote, by]: [string, string], i: number) => (
+              <div key={i} className={styles.testimonial}>
+                <p className="text-sm">{quote}</p>
+                <footer className="mt-2 text-xs text-muted-text">{by}</footer>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* FAQs */}
+      {faq.length > 0 && (
+        <section className="mt-8">
+          <h2 className={styles.sectionTitle}>FAQs</h2>
+          <div className="mt-4">
+            {faq.map(([q, a]: [string, string], i: number) => (
+              <div key={i} className={styles.faqItem}>
+                <div
+                  className={styles.faqQuestion}
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <span>{q}</span>
+                  {openFaq === i ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </div>
-              ))}
-
-              <div className="grid gap-3">
-                {links.map((link: any, i: number) => (
-                  <a
-                    key={link.id}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between bg-muted px-4 py-2 rounded-xl text-sm hover:bg-brand hover:text-white transition-all group"
-                  >
-                    <span>{link.label}</span>
-                    <ExternalLink size={16} className="text-muted group-hover:text-white" />
-                  </a>
-                ))}
+                <div className={`${styles.faqAnswer} ${openFaq === i ? styles.open : ''}`}>
+                  {a}
+                </div>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
+        </section>
+      )}
 
-          {/* Posts Section */}
-          {posts.length > 0 && (
-            <div className="mt-8 px-4">
-              <h4 className="text-sm font-bold text-brand mb-2">Posts</h4>
-              <div className="grid gap-3">
-                {posts.map((post: any, i: number) => (
-                  <div key={i} className="bg-muted p-3 rounded-xl">
-                    {post.image && (
-                      <img
-                        src={
-                          typeof post.image === 'string'
-                            ? post.image
-                            : URL.createObjectURL(post.image)
-                        }
-                        alt="Post"
-                        className="w-full h-40 object-cover rounded-md mb-2"
-                      />
-                    )}
-                    <h5 className="font-semibold text-sm">{post.title}</h5>
-                    <div
-                      className="text-xs text-muted prose prose-sm max-w-none"
-                      dangerouslySetInnerHTML={{ __html: post.body }}
-                    />
+      {/* Embeds */}
+      {embeds.length > 0 && (
+        <section className="mt-8">
+          <h2 className={styles.sectionTitle}>Featured</h2>
+          <div className="mt-4 space-y-4">
+            {embeds.map((embed: any, i: number) => (
+              <div key={i} className={styles.toggleSection}>
+                <button
+                  className={styles.toggleHeader}
+                  onClick={() => setOpenEmbed(openEmbed === i ? null : i)}
+                >
+                  <span>{embed.title}</span>
+                  <span>{openEmbed === i ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</span>
+                </button>
+                <div className={`${styles.toggleBody} ${openEmbed === i ? styles.open : ''}`}>
+                  <p className="text-sm text-muted-text mb-2">{embed.description}</p>
+                  <div className={styles.embedWrapper}>
+                    <iframe src={embed.url} allowFullScreen loading="lazy" />
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
+        </section>
+      )}
 
-          {/* Branding */}
-          {!brandingOff && (
-            <div className="mt-10 mb-4 text-xs text-center text-muted px-4">
-              Powered by <a className="underline text-brand" href="/">OnePage</a>
-            </div>
-          )}
-        </>
+      {/* Location */}
+      {locationEmbed && (
+        <section className="mt-8">
+          <h2 className={styles.sectionTitle}>Find Me</h2>
+          <div className={styles.mapWrapper}>
+            <iframe src={locationEmbed} loading="lazy" allowFullScreen />
+          </div>
+        </section>
+      )}
+
+      {/* Branding */}
+      {!brandingOff && (
+        <footer className="text-xs text-center text-muted mt-8">
+          Powered by <span className="text-brand font-semibold">OnePage</span>
+        </footer>
       )}
     </div>
   );
