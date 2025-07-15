@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Header from '@/lib/frontend/dashboard/header';
-import MobilePreview from '@/lib/frontend/dashboard/MobilePreview';
 import Tabs from '@/lib/frontend/dashboard/Tabs';
 import styles from '@/styles/dashboard.module.css';
+import previewStyles from '@/styles/preview.module.css';
 import { useAutoSave } from '@/lib/frontend/hooks/useAutoSave';
+import PreviewPage from '../preview/page';
 
 export default function Dashboard() {
   const [form, setForm] = useState({
@@ -23,26 +24,31 @@ export default function Dashboard() {
     posts: [],
     metaTitle: '',
     metaDescription: '',
-    theme: 'link',
+    // theme: 'link',
     nsfwWarning: false,
     preferredLink: 'primary',
     customDomain: '',
     emojiLink: '',
     gaId: '',
+    theme: "theme-default"
   });
-useAutoSave(form); 
+  useAutoSave(form);
   return (
     <div className={styles.dashboardWrapper}>
       <Header />
       <main className={`${styles.dashboardMain}`}>
-        <div className={`${styles.dashboardContent} flex flex-col lg:flex-row gap-6`}>
-          <div className="flex justify-center w-full lg:w-[375px] shrink-0">
-            <MobilePreview form={form} />
+        <div className={styles.dashboardContent}>
+          {/* 📱 Sticky Left */}
+          <div className={styles.mobilePreview}>
+            <div className={previewStyles.phoneFrame}>
+              <PreviewPage form={form} insidePhoneFrame={true} />
+            </div>
           </div>
-          <div className="flex-1">
+          <div className={styles.tabsWrapper}>
             <Tabs form={form} setForm={setForm} />
           </div>
         </div>
+
       </main>
     </div>
   );

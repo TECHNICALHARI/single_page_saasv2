@@ -1,16 +1,43 @@
 'use client';
 
 import styles from '@/styles/dashboard.module.css';
+import previewStyles from '@/styles/preview.module.css';
+import themeStyles from '@/styles/theme.module.css';
 import Image from 'next/image';
 import CustomModal from './CustomModal';
 import PlanCard from '../components/home/PlanCard';
 import { useState } from 'react';
 
 const themes = [
-  { key: 'link', name: 'Link in bio', preview: '/themes/link.png' },
-  { key: 'blog', name: 'Blog', preview: '/themes/blog.png' },
-  { key: 'shop', name: 'Shop', preview: '/themes/shop.png' },
+  { key: 'default', name: 'Default' },
+  { key: 'onyx', name: 'Onyx' },
+  { key: 'sunbeam', name: 'Sunbeam' },
+  { key: 'lavish', name: 'Lavish' },
+  { key: 'serenity', name: 'Serenity' },
+  { key: 'storm', name: 'Storm' },
+  { key: 'minted', name: 'Minted' },
+  { key: 'coral', name: 'Coral' },
+  { key: 'glacier', name: 'Glacier' },
+  { key: 'halo', name: 'Halo' },
+  { key: 'cloud', name: 'Cloud' },
+  { key: 'aura', name: 'Aura' },
+  { key: 'midnight', name: 'Midnight' },
+  { key: 'brand-light', name: 'Brand Light' },
+  { key: 'mist', name: 'Mist' },
+  { key: 'velvet', name: 'Velvet' },
+  { key: 'pine', name: 'Pine' },
+  { key: 'grayscale', name: 'Grayscale' },
+  { key: 'peach', name: 'Peach' },
+  { key: 'ocean', name: 'Ocean' },
 ];
+
+
+
+
+
+
+
+
 
 const plans = [
   {
@@ -128,37 +155,45 @@ export default function DesignTab({
       </div>
 
       {/* 🎨 Theme Section */}
-      <h3 className="text-xl font-bold text-brand">Themes</h3>
-      <div className="flex gap-4 flex-wrap">
-        {themes.map((theme) => (
-          <div
-            key={theme.key}
-            onClick={() => handleChange('theme', theme.key)}
-            className={`cursor-pointer rounded-xl border-2 p-2 transition-all ${
-              form.theme === theme.key
-                ? 'border-[var(--color-brand)]'
-                : 'border-transparent'
-            }`}
-          >
-            <Image
-              src={theme.preview}
-              alt={theme.name}
-              width={130}
-              height={130}
-              className="rounded-lg object-cover"
-            />
-            <p
-              className={`text-sm mt-2 text-center font-medium ${
-                form.theme === theme.key
-                  ? 'text-[var(--color-brand)]'
-                  : 'text-muted'
-              }`}
-            >
-              {theme.name}
-            </p>
-          </div>
-        ))}
-      </div>
+      <h3 className="text-xl font-bold text-brand mb-4">Themes</h3>
+
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {themes.map((theme) => {
+          const isActive = form.theme === theme.key;
+          const themeClass = themeStyles[`theme-${theme.key}`];
+
+          return (
+            <div key={theme.key} className="flex flex-col items-center">
+              <div
+                onClick={() => handleChange('theme', theme.key)}
+                className={`
+            ${previewStyles.themePreviewBox}
+            ${themeClass}
+            w-full h-[200px]
+            border-2
+            transition-all duration-300
+            transform hover:-translate-y-1
+            cursor-pointer
+            ${isActive ? 'border-[var(--color-brand)]' : 'border-gray-200'}
+          `}
+              >
+                <div className={previewStyles.themePreviewButton}></div>
+                <div className={previewStyles.themePreviewButton}></div>
+                <div className={previewStyles.themePreviewButton}></div>
+              </div>
+
+              <p
+                className={`mt-2 text-sm text-center font-medium ${isActive ? 'text-[var(--color-brand)]' : 'text-muted'
+                  }`}
+              >
+                {theme.name}
+              </p>
+            </div>
+          );
+        })}
+      </section>
+
+
 
       {/* 🚫 Disable Branding */}
       <div className={styles.postCard}>

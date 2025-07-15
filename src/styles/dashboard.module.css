@@ -14,34 +14,24 @@
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
-  overflow: hidden;
 }
 
 .dashboardContent {
   display: flex;
-  flex-direction: row;
-  gap: 2rem;
   align-items: flex-start;
-  flex-wrap: nowrap;
-  /* height: calc(100vh - 100px); */
+  gap: 2rem;
+  height: calc(100vh - 150px);
   overflow: hidden;
 }
 
-/* -------------------------------
-   📱 Mobile Preview
--------------------------------- */
 .mobilePreview {
-  width: 360px;
+  width: 375px;
   flex-shrink: 0;
   position: sticky;
   top: 100px;
-}
-
-.phoneFrame {
-  border: 1px solid #e5e7eb;
-  border-radius: 2rem;
+  align-self: flex-start;
+  height: calc(100vh - 120px);
   overflow: hidden;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
 }
 
 /* -------------------------------
@@ -49,12 +39,12 @@
 -------------------------------- */
 .tabsWrapper {
   flex: 1;
-  min-width: 0;
-  overflow-y: auto;
   height: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
+
 
 .tabNav {
   display: flex;
@@ -284,12 +274,15 @@
   border-radius: 0.75rem;
   border: 1px solid #e5e7eb;
 }
+
 .text-red-500 {
   color: #ef4444;
 }
+
 .bg-muted {
   background-color: var(--color-muted);
 }
+
 .text-brand {
   color: var(--color-brand);
 }
@@ -325,12 +318,15 @@
   animation: popIn 0.2s ease-out;
 
   /* ✅ Hide scrollbar cross-browser */
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE/Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
 }
 
 .customModal::-webkit-scrollbar {
-  display: none;                /* Chrome/Safari */
+  display: none;
+  /* Chrome/Safari */
 }
 
 
@@ -354,6 +350,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -364,6 +361,7 @@
     opacity: 0;
     transform: scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -401,7 +399,7 @@
   font-weight: 700;
   color: var(--color-brand);
 }
+
 /* subscriber end */
 
 /* settings  */
-
