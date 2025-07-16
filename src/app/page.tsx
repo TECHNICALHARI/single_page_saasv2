@@ -1,4 +1,5 @@
 import CallToAction from '@/lib/frontend/components/home/CallToAction';
+import ContactSection from '@/lib/frontend/components/home/ContactSection';
 import FAQ from '@/lib/frontend/components/home/FAQ';
 import Hero from '@/lib/frontend/components/home/Hero';
 import PricingSection from '@/lib/frontend/components/home/PricingSection';
@@ -68,6 +69,7 @@ export default function Home() {
       <PricingSection />
       <TrustSection />
       <FAQ />
+      <ContactSection />
       <CallToAction />
       <Footer />
     </main>

@@ -1,5 +1,9 @@
 'use client';
+
 import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import styles from '@/styles/home.module.css';
 
 const faqs = [
   {
@@ -22,46 +26,54 @@ const faqs = [
     q: 'Can I use it without any tech knowledge?',
     a: 'Yes! No coding, designing, or hosting knowledge needed. Just fill out a form, hit publish, and you’re live.',
   },
-  {
-    q: 'What payment options are supported?',
-    a: 'We use Razorpay for payments — supporting UPI, Cards, Netbanking and Wallets (India only for now).',
-  },
-  {
-    q: 'Can I cancel my plan anytime?',
-    a: 'Yes. There are no lock-ins or hidden fees. You can downgrade or delete your account at any time.',
-  },
-  {
-    q: 'What’s included in Premium that’s not in Pro?',
-    a: 'Premium includes advanced blocks like Gallery, Testimonials, Contact Form, YouTube embed, Google Maps, and full customization with more links.',
-  },
 ];
 
-export default function FAQPage() {
+export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <main className="section min-h-screen bg-muted text-left">
-      <div className="container">
-        <h1 className="section-title text-center">Frequently Asked Questions</h1>
-        <p className="section-subtitle text-center max-w-xl mx-auto">
+    <section id="faq" className="section bg-muted">
+      <div className="container text-center">
+        <h2 className="section-title">Frequently Asked Questions</h2>
+        <p className="section-subtitle max-w-xl mx-auto">
           Everything you need to know before creating or upgrading your OnePage site.
         </p>
 
-        <div className="faq-wrapper mt-12">
-          {faqs.map((item, idx) => (
-            <div key={idx} className={`faq-item ${openIndex === idx ? 'open' : ''}`}>
-              <div
-                className="faq-question"
-                onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-              >
-                {item.q}
-                <span>{openIndex === idx ? '−' : '+'}</span>
+        <div className={styles.faqWrapper}>
+          {faqs.map((item, idx) => {
+            const isOpen = openIndex === idx;
+
+            return (
+              <div key={idx} className={styles.faqItem}>
+                <button
+                  className={styles.faqQuestion}
+                  onClick={() => setOpenIndex(isOpen ? null : idx)}
+                >
+                  {item.q}
+                  <ChevronDown
+                    className={`${styles.faqChevron} ${isOpen ? styles.rotate : ''}`}
+                    size={20}
+                  />
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className={styles.faqAnswer}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <p>{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <div className="faq-answer">{item.a}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
-    </main>
+    </section>
   );
 }

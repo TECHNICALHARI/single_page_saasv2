@@ -8,7 +8,7 @@
   background-repeat: no-repeat;
   transition: background 0.3s ease, color 0.3s ease;
   overflow-y: auto;
-  padding-bottom: 3rem; /* to ensure footer space */
+  padding-bottom: 3rem; 
 }
 
 .scrollable {

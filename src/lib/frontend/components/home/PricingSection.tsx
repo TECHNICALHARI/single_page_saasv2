@@ -1,4 +1,8 @@
-import PlanCard from "@/lib/frontend/components/home/PlanCard";
+'use client';
+
+import { motion } from 'framer-motion';
+import PlanCard from '@/lib/frontend/components/home/PlanCard';
+import styles from '@/styles/home.module.css';
 
 const plans = [
   {
@@ -56,9 +60,18 @@ export default function PricingSection() {
           Start for free, upgrade anytime to unlock advanced tools.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-6 mt-12">
+        <div className={styles.planGrid}>
           {plans.map((plan, i) => (
-            <PlanCard key={i} plan={plan} />
+            <motion.div
+              key={i}
+              className={styles.planWrapper}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.2 }}
+              viewport={{ once: true }}
+            >
+              <PlanCard plan={plan} />
+            </motion.div>
           ))}
         </div>
       </div>

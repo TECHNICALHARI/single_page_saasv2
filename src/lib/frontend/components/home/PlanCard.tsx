@@ -1,3 +1,7 @@
+'use client';
+
+import styles from '@/styles/home.module.css';
+
 type Plan = {
   name: string;
   price: string;
@@ -6,19 +10,21 @@ type Plan = {
 
 export default function PlanCard({ plan }: { plan: Plan }) {
   return (
-    <div className="plan-card">
-      <div className="plan-badge">{plan.name}</div>
-      <div className="plan-price">{plan.price}</div>
+    <div className={styles.planCard}>
+      <div className={styles.planBadge}>{plan.name}</div>
+      <div className={styles.planPrice}>{plan.price}</div>
 
-      <ul className="plan-list">
-        {plan.features.map((f, i) => (
-          <li key={i}>{f}</li>
+      <ul className={styles.planList}>
+        {plan.features.map((feature, index) => (
+          <li key={index}>{feature}</li>
         ))}
       </ul>
 
-      <a href="/create" className="btn-primary mt-6">
-        Choose {plan.name}
-      </a>
+      <div className={styles.planBtnWrapper}>
+        <a href="/create" className="btn-primary">
+          Choose {plan.name}
+        </a>
+      </div>
     </div>
   );
 }

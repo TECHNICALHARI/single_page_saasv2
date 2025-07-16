@@ -1,18 +1,44 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import styles from '@/styles/home.module.css';
+
 export default function CallToAction() {
   return (
-    <section className="section bg-white text-center">
-      <div className="container">
-        <h2 className="section-title">Get Started in 60 Seconds</h2>
-        <p className="section-subtitle max-w-xl mx-auto">
-          Launch your beautiful personal or business page in under a minute. No design or code needed.
-        </p>
+    <section className={styles.ctaSection}>
+      <div className="container text-center relative z-10">
+        <motion.h2
+          className={styles.ctaTitle}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          Ready to Launch Your Page?
+        </motion.h2>
 
-        <div className="mt-8 flex justify-center gap-4">
-          <a href="/create" className="btn-primary">Start for Free</a>
-          <a href="#plans" className="btn-white">See Pricing</a>
-        </div>
+        <motion.p
+          className={styles.ctaSubtitle}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          Build your branded website or portfolio in just a minute. No code, no stress — just you and your story.
+        </motion.p>
 
-        <p className="text-sm text-muted-text mt-4">No credit card required. Cancel anytime.</p>
+        <motion.div
+          className={styles.ctaActions}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          viewport={{ once: true }}
+        >
+          <a href="/create" className="btn-primary">Create My Page</a>
+          <a href="#plans" className="btn-white">Explore Plans</a>
+        </motion.div>
+
+        <p className={styles.ctaNote}>No credit card required · Change anytime · Instant publishing</p>
       </div>
     </section>
   );
